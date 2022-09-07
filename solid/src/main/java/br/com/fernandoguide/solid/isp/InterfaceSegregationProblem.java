@@ -2,14 +2,13 @@ package br.com.fernandoguide.solid.isp;
 
 public class InterfaceSegregationProblem {
 
-    public interface Car {
+    public interface Carro {
         void recarregarBateria();
         void abrirPorta();
-
         void abastecerCombustivel();
     }
 
-    public static class Fiesta implements Car {
+    public static class CarroCombustao implements Carro {
         @Override
         public void recarregarBateria() {
             throw new UnsupportedOperationException("Este carro é a combustão !!");
@@ -26,7 +25,7 @@ public class InterfaceSegregationProblem {
         }
     }
 
-    public static class FocusElectric implements Car {
+    public static class CarroEletrico implements Carro {
 
         @Override
         public void recarregarBateria() {

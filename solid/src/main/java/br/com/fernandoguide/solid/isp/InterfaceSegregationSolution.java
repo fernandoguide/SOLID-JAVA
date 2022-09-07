@@ -2,18 +2,18 @@ package br.com.fernandoguide.solid.isp;
 
 public class InterfaceSegregationSolution {
 
-    public interface Carrro {
+    public interface Carro {
         void abrirPorta();
     }
-     public interface Eletrico extends Carrro {
+     public interface Eletrico extends Carro {
          void recarregarBateria();
 
      }
-    public interface Combustivel extends Carrro {
+    public interface Combustivel extends Carro {
         void abastecerCombustivel();
     }
 
-    public static class Fiesta implements Combustivel {
+    public static class CarroCombustao implements Combustivel {
         @Override
         public void abrirPorta() {
             //abre a porta
@@ -23,7 +23,7 @@ public class InterfaceSegregationSolution {
             // abastece o tanque de combustivel.
         }
     }
-    public static class FocusElectric implements Eletrico {
+    public static class CarroEletrico implements Eletrico {
         @Override
         public void recarregarBateria() {
             // recarrega bateria
