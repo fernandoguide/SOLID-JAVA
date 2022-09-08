@@ -16,7 +16,7 @@ public class DependencyInversionSolution {
         log.info(authenticateLoginLinkedin.login(user));
         log.info(authenticateLoginFacebook.login(user));
     }
-    private static class AuthenticateLogin {
+    public static class AuthenticateLogin {
         private final Authentication authentication;
         private AuthenticateLogin(Authentication authentication) {
             this.authentication = authentication;
@@ -25,16 +25,16 @@ public class DependencyInversionSolution {
             return authentication.login(user);
         }
     }
-    private interface Authentication {
+    public interface Authentication {
         String login(User user);
     }
-    private static class AuthenticationLinkedin implements Authentication {
+    public static class AuthenticationLinkedin implements Authentication {
         @Override
         public String login(User user) {
             return console.show(AuthenticationLinkedin.class.getSimpleName(), user.getUsername());
         }
     }
-    private static class AuthenticationFacebook implements Authentication {
+    public static class AuthenticationFacebook implements Authentication {
         @Override
         public String login(User user) {
             return console.show(AuthenticationFacebook.class.getSimpleName(), user.getUsername());

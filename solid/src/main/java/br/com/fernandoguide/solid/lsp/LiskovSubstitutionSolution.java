@@ -1,50 +1,39 @@
 package br.com.fernandoguide.solid.lsp;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class LiskovSubstitutionSolution {
-    public static class GerenciadorDeContas {
-        private double saldo;
-        public void deposita(double valor) {
-            this.saldo += valor;
-        }
-        public void saca(double valor) {
-            if(valor <= this.saldo) {
-                this.saldo -= valor;
-            }else{
-                throw new IllegalArgumentException("Saldo insuficiente.");
-            }
-        }
-        public double getSaldo() {
-            return saldo;
-        }
+    public abstract static class GerenciadorDeContas {
+         double saldo;
+        public abstract void deposita(double valor);
+        public abstract void saca(double valor);
+        public abstract double getSaldo();
+
+    }
+    public static class ContaCorrenteComum extends GerenciadorDeContas {
+
         public void rende(double taxa){
             this.saldo = this.saldo + (this.saldo*taxa);
         }
-    }
-    public static class ContaCorrenteComum {
 
-        private final GerenciadorDeContas gerenciador;
-
-        public ContaCorrenteComum() {
-            this.gerenciador = new GerenciadorDeContas();
-        }
-
+        @Override
         public void deposita(double valor) {
-            this.gerenciador.deposita(valor);
+            this.saldo += valor;
         }
 
+        @Override
         public void saca(double valor) {
-            this.gerenciador.saca(valor);
+            if(valor <= this.saldo) {
+                this.saldo -= valor;
+            } else {
+                throw new IllegalArgumentException("Saldo insuficiente.");
+            }
         }
-
+        @Override
         public double getSaldo() {
-            return this.gerenciador.getSaldo();
-        }
-
-        public void rende() {
-            this.gerenciador.rende(0.02);
+            return saldo;
         }
 
         @Override
@@ -52,29 +41,29 @@ public class LiskovSubstitutionSolution {
             return "Saldo conta corrente -> " + this.getSaldo();
         }
     }
-    public static class ContaSalario {
-
-        private final GerenciadorDeContas gerenciador;
-
-        public ContaSalario() {
-            this.gerenciador = new GerenciadorDeContas();
-        }
-
-        public void deposita(double valor) {
-            this.gerenciador.deposita(valor);
-        }
-
-        public void saca(double valor) {
-            this.gerenciador.saca(valor);
-        }
-
-        public double getSaldo() {
-            return this.gerenciador.getSaldo();
-        }
+    public static class ContaSalario  extends GerenciadorDeContas {
 
         @Override
         public String toString() {
             return "Saldo conta salario -> " + this.getSaldo();
+        }
+
+        @Override
+        public void deposita(double valor) {
+            this.saldo += valor;
+        }
+
+        @Override
+        public void saca(double valor) {
+            if(valor <= this.saldo) {
+                this.saldo -= valor;
+            }else{
+                throw new IllegalArgumentException("Saldo insuficiente.");
+            }
+        }
+        @Override
+        public double getSaldo() {
+            return saldo;
         }
     }
 
@@ -110,11 +99,14 @@ public class LiskovSubstitutionSolution {
         List<ContaCorrenteComum> listaDeContasComum = populaListaContaCorrenteComum();
         List<ContaSalario> listaDeContasSalario = populaListaContaSalario();
 
-        listaDeContasComum.forEach(ContaCorrenteComum::rende);
-        listaDeContasComum.forEach(System.out::println);
+        List<GerenciadorDeContas> gerenciadorDeContas = new ArrayList<>();
 
-        listaDeContasSalario.forEach(System.out::println);
+        for (ContaCorrenteComum contaCorrenteComum : listaDeContasComum) {
+            contaCorrenteComum.rende(0.02);
+            gerenciadorDeContas.add(contaCorrenteComum);
+        }
+        gerenciadorDeContas.addAll(listaDeContasSalario);
+        gerenciadorDeContas.forEach(System.out::println);
     }
-
 
 }
