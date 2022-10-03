@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master" ,"fernandoguide-ci" ]
+    branches: [ "feature/*" ,"feature-*", "fernandoguide-ci" ]
   pull_request:
-    branches: [ "master", "fernandoguide-ci" ]
+    branches: [ "feature/*","feature-*",  "fernandoguide-ci" ]
 
 jobs:
   build:
